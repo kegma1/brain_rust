@@ -1,0 +1,13 @@
+[package]
+name = "brain_rust"
+version = "0.1.0"
+edition = "2018"
+
+[[bin]]
+name = "brain_rust"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+regex = "1.5.4"
+read_input = "0.8.6"
