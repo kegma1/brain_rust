@@ -1,7 +1,7 @@
 pub mod parser;
 pub mod runtime;
 
-#[derive(Debug,Clone)]
+#[derive(Debug, Clone)]
 pub enum Token {
     Inc(usize),
     Dec(usize),

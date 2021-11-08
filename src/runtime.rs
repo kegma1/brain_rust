@@ -25,21 +25,23 @@ impl Runtime {
             if self.prg_pos < self.prg.len() {
                 // println!("Ja: {:?}\n{}\n", self, self.prg.len());
                 match self.execute() {
-                    Err(e) =>{println!("{}", e);break},
-                    Ok(v) => {self = v.iterate().to_owned();},                
+                    Err(e) => {
+                        println!("{}", e);
+                        break;
+                    }
+                    Ok(v) => {
+                        self = v.iterate().to_owned();
+                    }
                 };
             } else {
-                break
+                break;
             }
-            
-
         }
         // println!("End: {:?}\n{}\n", self, self.prg.len());
     }
 
     pub fn execute(&mut self) -> Result<&mut Runtime, &'static str> {
         let current_token = &self.prg[self.prg_pos];
-
 
         match current_token {
             Token::Inc(x) => {
