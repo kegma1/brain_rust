@@ -20,10 +20,30 @@ impl Runtime {
         }
     }
 
+    pub fn print(&self) {
+        for (i, elm) in self.prg.iter().enumerate() {
+            if self.prg_pos == i {
+                print!("({:?}) ", elm)
+            }else {
+                print!("[{:?}] ", elm)
+            }
+        }
+        print!("\n------------------------------------------------------------------------------------------\n");
+        for (i, elm) in self.mem.iter().enumerate() {
+            if self.mem_pos == i {
+                print!("({:?}) ", elm)
+            }else {
+                print!("[{:?}] ", elm)
+            }
+        }
+        print!("\n\n");
+    }
+
     pub fn run(mut self) {
         loop {
+            self.print();
+
             if self.prg_pos < self.prg.len() {
-                // println!("Ja: {:?}\n{}\n", self, self.prg.len());
                 match self.execute() {
                     Err(e) => {
                         println!("{}", e);
@@ -37,7 +57,6 @@ impl Runtime {
                 break;
             }
         }
-        // println!("End: {:?}\n{}\n", self, self.prg.len());
     }
 
     pub fn execute(&mut self) -> Result<&mut Runtime, &'static str> {
@@ -45,7 +64,8 @@ impl Runtime {
 
         match current_token {
             Token::Inc(x) => {
-                self.mem[self.mem_pos] = ((self.mem[self.mem_pos] as usize + x) & 255) as u8;
+                self.mem[self.mem_pos] = 
+                    ((self.mem[self.mem_pos] as usize + x) & 255) as u8;
                 Ok(self)
             }
             Token::Dec(x) => {

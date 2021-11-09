@@ -21,7 +21,7 @@ pub fn parse(prg: &str) -> Vec<Token> {
         .map(|x| {
             let x_chars: Vec<char> = x.1.chars().collect();
             match x_chars[0] {
-                '+' | '-' | '<' | '>' => Some(parse_char(0, &x_chars).unwrap()),
+                '+' | '-' | '<' | '>'  => Some(parse_char(0, &x_chars).unwrap()),
                 '[' | ']' | '.' | ',' => Some(parse_char(x.0, &prg_as_char_vector).unwrap()),
                 _ => None,
             }
@@ -65,22 +65,21 @@ fn find_matching_brk(brk: char, list: &[char]) -> Option<usize> {
     let list_rev: Vec<char> = list.iter().copied().rev().collect();
 
     match brk {
-        x if x == '[' => Some(matching_brk(x, list)),
-        x if x == ']' => Some(matching_brk(x, &list_rev)),
+        x if x == '[' => Some(matching_brk(x, list, ']')),
+        x if x == ']' => Some(matching_brk(x, &list_rev, '[')),
         _ => None,
     }
 }
 
-fn matching_brk(brk: char, list: &[char]) -> usize {
+fn matching_brk(brk: char, list: &[char], opisit_brk:char) -> usize {
     let mut counter = 1usize;
     let mut brk_counter = 1usize;
-    let opisit_bracket = opisit_bracket(&brk);
     for x in list {
         match x {
             x if *x == brk => {
                 brk_counter += 1;
             }
-            x if *x == opisit_bracket => {
+            x if *x == opisit_brk => {
                 brk_counter -= 1;
             }
             _ => (),
@@ -94,10 +93,4 @@ fn matching_brk(brk: char, list: &[char]) -> usize {
     counter
 }
 
-fn opisit_bracket(brk: &char) -> char {
-    match brk {
-        '[' => ']',
-        ']' => '[',
-        _ => ' ',
-    }
-}
+
