@@ -2,9 +2,14 @@ use crate::Token;
 use regex::Regex;
 
 pub fn parse(prg: &str) -> Vec<Token> {
-    let re = Regex::new(r"<+|>+|\-+|\++|\[|\]|,|\.").unwrap();
-    let prg_as_string_vector: Vec<_> = re
-        .find_iter(prg)
+    let re_remove_comments = Regex::new(r"[^<>\+\-\.,\[\]]").unwrap();
+
+    let prg_no_comments = re_remove_comments.replace_all(prg, "").into_owned();
+
+    let re_seperate_prg_str = Regex::new(r"<+|>+|\-+|\++|\[|\]|,|\.").unwrap();
+
+    let prg_as_string_vector: Vec<_> = re_seperate_prg_str
+        .find_iter(prg_no_comments.as_str())
         .collect::<Vec<_>>()
         .iter()
         .map(|x| String::from(x.as_str()))
@@ -21,7 +26,7 @@ pub fn parse(prg: &str) -> Vec<Token> {
         .map(|x| {
             let x_chars: Vec<char> = x.1.chars().collect();
             match x_chars[0] {
-                '+' | '-' | '<' | '>'  => Some(parse_char(0, &x_chars).unwrap()),
+                '+' | '-' | '<' | '>' => Some(parse_char(0, &x_chars).unwrap()),
                 '[' | ']' | '.' | ',' => Some(parse_char(x.0, &prg_as_char_vector).unwrap()),
                 _ => None,
             }
@@ -71,7 +76,7 @@ fn find_matching_brk(brk: char, list: &[char]) -> Option<usize> {
     }
 }
 
-fn matching_brk(brk: char, list: &[char], opisit_brk:char) -> usize {
+fn matching_brk(brk: char, list: &[char], opposite_brk: char) -> usize {
     let mut counter = 1usize;
     let mut brk_counter = 1usize;
     for x in list {
@@ -79,7 +84,7 @@ fn matching_brk(brk: char, list: &[char], opisit_brk:char) -> usize {
             x if *x == brk => {
                 brk_counter += 1;
             }
-            x if *x == opisit_brk => {
+            x if *x == opposite_brk => {
                 brk_counter -= 1;
             }
             _ => (),
@@ -92,5 +97,3 @@ fn matching_brk(brk: char, list: &[char], opisit_brk:char) -> usize {
     }
     counter
 }
-
-
