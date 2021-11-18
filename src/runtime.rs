@@ -21,18 +21,20 @@ impl Runtime {
     }
 
     pub fn print(&self) {
+        println!("program: ");
         for (i, elm) in self.prg.iter().enumerate() {
             if self.prg_pos == i {
                 print!("({:?}) ", elm)
-            }else {
+            } else {
                 print!("[{:?}] ", elm)
             }
         }
-        print!("\n------------------------------------------------------------------------------------------\n");
+        print!("\n\n");
+        println!("memory: ");
         for (i, elm) in self.mem.iter().enumerate() {
             if self.mem_pos == i {
                 print!("({:?}) ", elm)
-            }else {
+            } else {
                 print!("[{:?}] ", elm)
             }
         }
@@ -41,8 +43,6 @@ impl Runtime {
 
     pub fn run(mut self) {
         loop {
-            self.print();
-
             if self.prg_pos < self.prg.len() {
                 match self.execute() {
                     Err(e) => {
@@ -57,6 +57,7 @@ impl Runtime {
                 break;
             }
         }
+        self.print();
     }
 
     pub fn execute(&mut self) -> Result<&mut Runtime, &'static str> {
@@ -64,8 +65,7 @@ impl Runtime {
 
         match current_token {
             Token::Inc(x) => {
-                self.mem[self.mem_pos] = 
-                    ((self.mem[self.mem_pos] as usize + x) & 255) as u8;
+                self.mem[self.mem_pos] = ((self.mem[self.mem_pos] as usize + x) & 255) as u8;
                 Ok(self)
             }
             Token::Dec(x) => {
@@ -102,11 +102,21 @@ impl Runtime {
                     .get() as u8;
                 Ok(self)
             }
-            Token::OpenBrk(_) => {
-                todo!()
+            Token::OpenBrk(x) => {
+                if self.mem[self.mem_pos] == 0 {
+                    self.prg_pos += x;
+                    Ok(self)
+                } else {
+                    Ok(self)
+                }
             }
-            Token::ClosedBrk(_) => {
-                todo!()
+            Token::ClosedBrk(x) => {
+                if self.mem[self.mem_pos] != 0 {
+                    self.prg_pos -= x;
+                    Ok(self)
+                } else {
+                    Ok(self)
+                }
             }
         }
     }
