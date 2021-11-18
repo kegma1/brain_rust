@@ -3,6 +3,8 @@ name = "brain_rust"
 version = "0.1.0"
 edition = "2018"
 
+authors = ["kennet <kennetam02@gmail.com>"] 
+
 [[bin]]
 name = "brain_rust"
 
