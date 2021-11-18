@@ -20,26 +20,27 @@ impl Runtime {
         }
     }
 
-    pub fn print(&self) {
-        println!("program: ");
-        for (i, elm) in self.prg.iter().enumerate() {
-            if self.prg_pos == i {
-                print!("({:?}) ", elm)
-            } else {
-                print!("[{:?}] ", elm)
-            }
-        }
-        print!("\n\n");
-        println!("memory: ");
-        for (i, elm) in self.mem.iter().enumerate() {
-            if self.mem_pos == i {
-                print!("({:?}) ", elm)
-            } else {
-                print!("[{:?}] ", elm)
-            }
-        }
-        print!("\n\n");
-    }
+    //TODO: make this better
+    // pub fn print(&self) {
+    //     print!("program:\n");
+    //     for (i, elm) in self.prg.iter().enumerate() {
+    //         if self.prg_pos == i {
+    //             print!("({:?}) ", elm)
+    //         } else {
+    //             print!("[{:?}] ", elm)
+    //         }
+    //     }
+    //     print!("\n\n");
+    //     print!("memory:\n");
+    //     for (i, elm) in self.mem.iter().enumerate() {
+    //         if self.mem_pos == i {
+    //             print!("({:?}) ", elm)
+    //         } else {
+    //             print!("[{:?}] ", elm)
+    //         }
+    //     }
+    //     print!("\n\n");
+    // }
 
     pub fn run(mut self) {
         loop {
@@ -57,7 +58,6 @@ impl Runtime {
                 break;
             }
         }
-        self.print();
     }
 
     pub fn execute(&mut self) -> Result<&mut Runtime, &'static str> {
