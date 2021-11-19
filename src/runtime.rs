@@ -97,7 +97,7 @@ impl Runtime {
                 Ok(self)
             }
             Token::InStd => {
-                self.mem[self.mem_pos] = input::<char>()
+                self.mem[self.mem_pos] = input::<char>().msg("> ")
                     .add_err_test(|x| *x as usize <= 255, "Not a ascii value")
                     .get() as u8;
                 Ok(self)
