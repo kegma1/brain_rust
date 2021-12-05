@@ -35,7 +35,7 @@ fn main() {
             match program_file {
                 Ok(prog) => {
                     let file_name = &path[0..path.len() - 3];
-                    let compiled_prog = brain_rust::parser::parse(&prog);
+                    let compiled_prog = brain_rust::compiler::parse(&prog);
                     let mut output = File::create(format!("{}.rbf", file_name)).expect("Was unable to create file.");
                     for i in &compiled_prog {
                         output.write_all(format!("{}", i).as_bytes()).expect("Was unable to write data to file.");

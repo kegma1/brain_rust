@@ -1,4 +1,4 @@
-use crate::parser::parse;
+use crate::compiler::parse;
 use crate::Token;
 use read_input::prelude::*;
 
