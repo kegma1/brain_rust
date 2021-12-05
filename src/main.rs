@@ -12,11 +12,22 @@ fn main() {
     match sub_command.as_str() {
         "run" | "r" => {
             let path = &args[2];
-            let program_file = fs::read_to_string(path);
-            match program_file {
-                Ok(prog) => brain_rust::runtime::Runtime::new(&prog).run(),
-                Err(_) => println!("ERROR: Invalid path: {}", path),
+            let file_extension = {
+                let dot_index = path.find(".").unwrap();
+                &path[dot_index..]
+            };
+            match file_extension {
+                ".bf" => {
+                    let program_file = fs::read_to_string(path);
+                    match program_file {
+                        Ok(prog) => brain_rust::runtime::Runtime::new(&prog).run(),
+                        Err(_) => println!("ERROR: Invalid path: {}", path),
+                    }
+                },
+                ".rbf" => todo!("not yet implemented."),
+                _ => println!("Unsupported file extension"),
             }
+            
         }
         "compile" | "c" => {
             let path = &args[2];
