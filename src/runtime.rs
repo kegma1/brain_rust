@@ -1,4 +1,3 @@
-use crate::compiler::parse;
 use crate::Token;
 use read_input::prelude::*;
 
@@ -11,11 +10,11 @@ pub struct Runtime {
 }
 
 impl Runtime {
-    pub fn new(parsed_prg: &str) -> Runtime {
+    pub fn new(prg: Vec<Token>) -> Runtime {
         Runtime {
-            prg: parse(parsed_prg),
+            prg: prg,
             prg_pos: 0usize,
-            mem: vec![0u8],
+            mem: vec![0u8; 500],
             mem_pos: 0usize,
         }
     }

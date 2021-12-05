@@ -20,11 +20,24 @@ fn main() {
                 ".bf" => {
                     let program_file = fs::read_to_string(path);
                     match program_file {
-                        Ok(prog) => brain_rust::runtime::Runtime::new(&prog).run(),
+                        Ok(prog) => {
+                            let prg = brain_rust::compiler::compile(&prog);
+                            brain_rust::runtime::Runtime::new(prg).run()
+                        },
                         Err(_) => println!("ERROR: Invalid path: {}", path),
                     }
                 },
-                ".rbf" => todo!("not yet implemented."),
+                ".rbf" => {
+                    let program_file = fs::read_to_string(path);
+                    match program_file {
+                        Ok(prog) => {
+                            let prg = brain_rust::parser::parse(&prog);
+                            brain_rust::runtime::Runtime::new(prg).run()
+                        },
+                        Err(_) => println!("ERROR: Invalid path: {}", path),
+                    }
+                    
+                },
                 _ => println!("ERROR: Invalid file extension"),
             }
             
@@ -35,7 +48,7 @@ fn main() {
             match program_file {
                 Ok(prog) => {
                     let file_name = &path[0..path.len() - 3];
-                    let compiled_prog = brain_rust::compiler::parse(&prog);
+                    let compiled_prog = brain_rust::compiler::compile(&prog);
                     let mut output = File::create(format!("{}.rbf", file_name)).expect("Was unable to create file.");
                     for i in &compiled_prog {
                         output.write_all(format!("{}", i).as_bytes()).expect("Was unable to write data to file.");

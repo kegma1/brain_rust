@@ -1,7 +1,7 @@
 use crate::Token;
 use regex::Regex;
 
-pub fn parse(prg: &str) -> Vec<Token> {
+pub fn compile(prg: &str) -> Vec<Token> {
     let re_remove_comments = Regex::new(r"[^<>\+\-\.,\[\]]").unwrap();
 
     let prg_no_comments = re_remove_comments.replace_all(prg, "").into_owned();
