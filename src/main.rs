@@ -25,7 +25,7 @@ fn main() {
                     }
                 },
                 ".rbf" => todo!("not yet implemented."),
-                _ => println!("Unsupported file extension"),
+                _ => println!("ERROR: Invalid file extension"),
             }
             
         }
