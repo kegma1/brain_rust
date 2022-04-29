@@ -1,5 +1,5 @@
 # brain_rust
-Brain_rust is an over engineered interpreter for Brainfuck. 
+Brain_rust is an over engineered interpreter for Brainfuck.
 
 # How to run
 ## cargo
