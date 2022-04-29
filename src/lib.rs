@@ -1,6 +1,6 @@
 pub mod compiler;
-pub mod runtime;
 pub mod parser;
+pub mod runtime;
 
 #[derive(Debug, Clone)]
 pub enum Token {
