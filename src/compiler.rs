@@ -6,9 +6,9 @@ pub fn compile(prg: &str) -> Vec<Token> {
 
     let prg_no_comments = re_remove_comments.replace_all(prg, "").into_owned();
 
-    let re_seperate_prg_str = Regex::new(r"<+|>+|\-+|\++|\[|\]|,|\.").unwrap();
+    let re_separate_prg_str = Regex::new(r"<+|>+|\-+|\++|\[|\]|,|\.").unwrap();
 
-    let prg_as_string_vector: Vec<_> = re_seperate_prg_str
+    let prg_as_string_vector: Vec<_> = re_separate_prg_str
         .find_iter(prg_no_comments.as_str())
         .collect::<Vec<_>>()
         .iter()
